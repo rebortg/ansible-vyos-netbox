@@ -1,0 +1,5 @@
+---
+
+- include: get_facts_knotenrouter.yml
+- include: make_config.yml
+- include: configure_vyos.yml

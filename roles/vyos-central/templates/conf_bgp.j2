@@ -1,0 +1,8 @@
+set policy route-map DENY-ALL rule 1 action deny
+
+{% for router in knotenrouter %}
+{% if router['value']['status']['label'] == 'Active' %}
+set protocols bgp 64512 neighbor 10.145.90.{{ router['value']['primary_ip']['address'].split('/')[0].split('.')[3]}} remote-as {{ router['value']['config_context']['asn'] }}
+set protocols bgp 64512 neighbor 10.145.90.{{ router['value']['primary_ip']['address'].split('/')[0].split('.')[3]}} address-family ipv4-unicast route-map export DENY-ALL
+{% endif %}
+{% endfor %}

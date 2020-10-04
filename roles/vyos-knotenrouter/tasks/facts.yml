@@ -1,0 +1,11 @@
+---
+- vyos.vyos.vyos_facts:
+    gather_subset: all
+    gather_network_resources: all
+
+- name: get config dict
+  shell: python get_conf_dict.py "{{ ansible_facts['net_config'][0] }}"
+  register: conf_dict_string
+
+- set_fact:
+    running_config: "{{ conf_dict_string['stdout_lines'][1] }}"

@@ -1,0 +1,21 @@
+# netbox_inventory.yml file in YAML format
+# Example command line: ansible-inventory -v --list -i netbox_inventory.yml
+
+plugin: netbox.netbox.nb_inventory
+api_endpoint: http://netbox
+token: xxxxxxxxx
+validate_certs: False
+config_context: True
+fetch_all: True
+interfaces: True
+
+query_filters:
+  - role: routerknoten
+  - status: active
+
+group_by:
+  - device_roles
+
+#compose:
+#  interfaces: interfaces
+#  lastupdate: last_updated

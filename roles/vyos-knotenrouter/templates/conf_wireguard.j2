@@ -1,0 +1,11 @@
+{% for interface in interfaces %}
+{% if 'wg' in interface['name'] %}
+{% for ip in interface['ip_addresses'] %}
+set interfaces wireguard wg01 address {{ ip['address'] }}
+{% endfor %}
+set interfaces wireguard wg01 peer dmz allowed-ips '0.0.0.0/0'
+set interfaces wireguard wg01 peer dmz endpoint '192.168.88.82:42{{ config_context[0]['mgmt_net'].split('/')[0].split('.')[3] }}'
+set interfaces wireguard wg01 peer dmz pubkey 'xxxxx='
+set interfaces wireguard wg01 port '42{{ config_context[0]['mgmt_net'].split('/')[0].split('.')[3] }}'
+{% endif %}
+{% endfor %}

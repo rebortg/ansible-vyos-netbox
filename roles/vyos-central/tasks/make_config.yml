@@ -1,0 +1,13 @@
+
+- name: config_part test
+  delegate_to: localhost
+  template:
+    src: conf_wireguard.j2
+    dest: "output/conf_wireguard.txt"
+
+
+- name: config_part test
+  delegate_to: localhost
+  template:
+    src: conf_bgp.j2
+    dest: "output/conf_bgp.txt"

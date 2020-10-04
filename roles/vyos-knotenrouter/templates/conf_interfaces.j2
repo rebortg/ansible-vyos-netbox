@@ -1,0 +1,60 @@
+{% for interface in interfaces %}
+{% if 'br' in interface['name'] %}
+{% for ip in interface['ip_addresses'] %}
+{% if ip['family']['value'] == 4 %}
+set interfaces bridge {{ interface['name'] }} address {{ ip['address'] }}
+{% endif %}
+{% endfor %}
+set interfaces bridge {{ interface['name'] }} aging '300'
+{% if interface['description'] != '' %}
+set interfaces ethernet {{ interface['name'] }} description '{{ interface['description'] }}'
+{% endif %}
+set interfaces bridge {{ interface['name'] }} hello-time '2'
+set interfaces bridge {{ interface['name'] }} max-age '20'
+set interfaces bridge {{ interface['name'] }} priority '32768'
+set interfaces bridge {{ interface['name'] }} stp 'true'
+{% for tag in interface['tags'] %}
+{% if 'BGP_DMZ' in tag['name'] %}
+set interfaces bridge {{ interface['name'] }} policy route wg01DMZ
+{% endif %}
+{% endfor %}
+{% endif %}
+{% endfor %}
+{% for interface in interfaces %}
+{% if 'eth' in interface['name'] and '.' not in interface['name'] %}
+{% if interface['enabled'] %}
+{% for ip in interface['ip_addresses'] %}
+{% if ip['family']['value'] == 4 %}
+set interfaces ethernet {{ interface['name'] }} address {{ ip['address'] }}
+{% endif %}
+{% endfor %}
+{% if interface['description'] != '' %}
+set interfaces ethernet {{ interface['name'] }} description '{{ interface['description'] }}'
+{% endif %}
+set interfaces ethernet {{ interface['name'] }} duplex 'auto'
+set interfaces ethernet {{ interface['name'] }} mtu {{ interface['mtu'] }}
+set interfaces ethernet {{ interface['name'] }} smp-affinity 'auto'
+set interfaces ethernet {{ interface['name'] }} speed 'auto'
+{% for vlan in interface['tagged_vlans'] %}
+set interfaces ethernet {{ interface['name'] }} vif {{ vlan['vid'] }} bridge-group bridge br{{ vlan['vid'] }}
+set interfaces ethernet {{ interface['name'] }} vif {{ vlan['vid'] }} description '{{ vlan['display_name'] }}'
+{% endfor %}
+{% else %}
+set interfaces ethernet {{ interface['name'] }} disable
+{% endif %}
+{% endif %}
+{% if '.' in interface['name'] %}
+{% if interface['enabled'] %}
+{% for ip in interface['ip_addresses'] %}
+{% if ip['family']['value'] == 4 %}
+set interfaces ethernet {{ interface['name'].split(".")[0] }} vif {{ interface['name'].split(".")[1] }} address {{ ip['address'] }}
+{% for tag in interface['tags'] %}
+{% if 'BGP_DMZ' in tag['name'] %}
+set interfaces ethernet {{ interface['name'].split(".")[0] }} vif {{ interface['name'].split(".")[1] }} policy route wg01DMZ
+{% endif %}
+{% endfor %}
+{% endif %}
+{% endfor %}
+{% endif %}
+{% endif %}
+{% endfor %}

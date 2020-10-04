@@ -1,0 +1,4 @@
+set protocols static route 0.0.0.0/0 next-hop {{ config_context[0]['default_gw'] }}
+set protocols static table 100 interface-route 0.0.0.0/0 next-hop-interface wg01
+set policy route wg01DMZ description 'route all to wg01'
+set policy route wg01DMZ rule 100 set table '100'

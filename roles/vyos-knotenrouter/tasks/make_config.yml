@@ -1,0 +1,52 @@
+---
+
+- name: ensure outdir is present
+  delegate_to: localhost
+  file:
+    path: "output/{{ inventory_hostname }}"
+    state: directory
+
+- name: config_part test
+  delegate_to: localhost
+  template:
+    src: conf_bgp.j2
+    dest: "output/{{ inventory_hostname }}/conf_bgp.txt"
+
+- name: config_part test
+  delegate_to: localhost
+  template:
+    src: conf_routepolicy.j2
+    dest: "output/{{ inventory_hostname }}/conf_routepolicy.txt"
+
+- name: config_part test
+  delegate_to: localhost
+  template:
+    src: conf_routingtables.j2
+    dest: "output/{{ inventory_hostname }}/conf_routingtables.txt"
+
+- name: config_part test
+  delegate_to: localhost
+  template:
+    src: conf_wireguard.j2
+    dest: "output/{{ inventory_hostname }}/conf_wireguard.txt"
+
+
+- name: config_part test
+  delegate_to: localhost
+  template:
+    src: conf_interfaces.j2
+    dest: "output/{{ inventory_hostname }}/conf_interfaces.txt"
+
+- name: config_part test
+  delegate_to: localhost
+  template:
+    src: conf_common.j2
+    dest: "output/{{ inventory_hostname }}/conf_common.txt"
+
+- name: config_part test
+  delegate_to: localhost
+  template:
+    src: conf_dhcp.j2
+    dest: "output/{{ inventory_hostname }}/conf_dhcp.txt"
+
+

@@ -1,0 +1,19 @@
+---
+
+#- name: gatter fatcs of VL-Q146082
+#  set_fact:
+#    central_host: '{{ query("netbox.netbox.nb_lookup", "virtual-machines", api_filter="name=VL-Q146082", api_endpoint=netbox_url, token=netbox_token) }}'
+
+#- name: gatter fatcs of VL-Q146082
+#  set_fact:
+#    vm_interfaces: '{{ query("netbox.netbox.nb_lookup", "virtualization-interfaces", api_filter="virtual_machine=VL-Q146082", api_endpoint=netbox_url, token=netbox_token) }}'
+
+- name: gatter fatcs of VL-Q146082
+  set_fact:
+    knotenrouter: '{{ query("netbox.netbox.nb_lookup", "devices", api_filter="role=routerknoten", api_endpoint=netbox_url, token=netbox_token) }}'
+  
+#- debug:
+#    msg:
+#      - "{{knotenrouter}}"
+
+

@@ -1,0 +1,11 @@
+set service snmp community xxxx
+set service snmp listen-address {{ ansible_host }}
+set service ssh listen-address {{ ansible_host }}
+set system config-management commit-revisions '100'
+set system host-name {{ inventory_hostname }}
+set system login radius-server 10.166.53.1 secret 'xxxxx'
+set system login radius-source-address {{ ansible_host }}
+set system ntp server 194.49.19.51
+set system syslog global facility all level 'info'
+set system syslog global facility protocols level 'debug'
+set system time-zone 'Europe/Berlin'

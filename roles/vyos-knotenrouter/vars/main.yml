@@ -1,0 +1,10 @@
+---
+# vars file for vyos-knotenrouter
+
+ansible_connection: network_cli
+ansible_network_os: vyos
+ansible_user: vyos
+
+
+netbox_url: http://netbox
+netbox_token: xxxxxxxxxx

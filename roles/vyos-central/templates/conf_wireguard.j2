@@ -1,0 +1,15 @@
+{% for interface in interfaces %}
+{% if 'wg' in interface['name'] %}
+{% for router in knotenrouter %}
+{% if router['value']['config_context']['mgmt_net'].split('/')[0].split('.')[3] in interface['name'] and router['value']['status']['label'] == 'Active' %}
+{% for ip in interface['ip_addresses'] %}
+set interfaces wireguard {{ interface['name'] }} address {{ ip['address'] }}
+{% endfor %}
+set interfaces wireguard {{ interface['name'] }} peer dmz allowed-ips '0.0.0.0/0'
+set interfaces wireguard {{ interface['name'] }} peer dmz endpoint '{{ router['value']['primary_ip']['address'].split('/')[0]}}:42{{ router['value']['config_context']['mgmt_net'].split('/')[0].split('.')[3] }}'
+set interfaces wireguard {{ interface['name'] }} peer dmz pubkey {{ router['value']['config_context']['pubkey'] }}
+set interfaces wireguard {{ interface['name'] }} port '42{{ router['value']['config_context']['mgmt_net'].split('/')[0].split('.')[3] }}'
+{% endif %}
+{% endfor %}
+{% endif %}
+{% endfor %}

@@ -1,0 +1,11 @@
+# for vyos 1.3
+
+{% for member in interfaces %}
+{% if 'bridge' not in member['tags'] %}
+{% for vlan in member['tagged_vlans'] %}
+{% if interface['untagged_vlan']['vid'] == vlan['vid'] %}
+set interface bridge {{ interface['name'] }} interface {{member.name}}.{{vlan.vid}}
+{% endif %}
+{% endfor %}
+{% endif %}
+{% endfor %}

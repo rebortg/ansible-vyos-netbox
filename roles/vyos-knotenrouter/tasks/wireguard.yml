@@ -1,0 +1,37 @@
+---
+- name: get and or create Wireguard keypair
+  block:
+    - name: show wireguard pubkey
+      vyos_command:
+        commands: show wireguard pubkey
+      register: pubkey_out
+    - fail:
+      when: pubkey_out.stdout[0].find("found") != -1
+
+  rescue:
+    - name: generate wireguard keypair
+      vyos_command:
+        commands: generate wireguard keypair
+
+  always:
+    - name: show wireguard pubkey
+      vyos_command:
+        commands: show wireguard pubkey 
+      register: pubkey_out
+    
+    
+    - name: Save pubkey to netbox
+      delegate_to: localhost
+      netbox.netbox.netbox_device:
+        netbox_url: "{{ netbox_url }}"
+        netbox_token: "{{ netbox_token }}"
+        data:
+          name: "{{ inventory_hostname }}"
+          device_type: "{{ device_types[0] }}"
+          device_role: "{{ device_roles[0] }}"
+          site: "{{ sites[0] }}"
+          local_context_data:
+            pubkey: "{{ pubkey_out.stdout[0] }}"
+            asn: "{{ config_context[0]['asn'] }}"
+            default_gw: "{{ config_context[0]['default_gw'] }}"
+            mgmt_net: "{{ config_context[0]['mgmt_net'] }}"

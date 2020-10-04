@@ -1,0 +1,15 @@
+---
+
+- name: set vyos wireguard config
+  vyos.vyos.vyos_config:
+    src: conf_wireguard.j2
+
+
+
+- name: set vyos bgp config
+  vyos.vyos.vyos_config:
+    src: conf_bgp.j2
+
+- name: save --> build as handler
+  vyos.vyos.vyos_config:
+    save: True

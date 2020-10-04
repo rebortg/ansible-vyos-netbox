@@ -1,0 +1,6 @@
+---
+
+- include: get_facts_vl-q146082.yml
+- include: wireguard.yml
+- include: make_config.yml
+- include: configure_vyos.yml

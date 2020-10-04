@@ -1,0 +1,33 @@
+---
+
+- name: set vyos common config
+  vyos.vyos.vyos_config:
+    src: conf_common.j2
+
+- name: set vyos routingtables config
+  vyos.vyos.vyos_config:
+    src: conf_routingtables.j2
+
+- name: set vyos interface config
+  vyos.vyos.vyos_config:
+    src: conf_interfaces.j2
+
+- name: set vyos wireguard config
+  vyos.vyos.vyos_config:
+    src: conf_wireguard.j2
+
+- name: set vyos routepolicy config
+  vyos.vyos.vyos_config:
+    src: conf_routepolicy.j2
+
+- name: set vyos bgp config
+  vyos.vyos.vyos_config:
+    src: conf_bgp.j2
+
+- name: set vyos dhcp config
+  vyos.vyos.vyos_config:
+    src: conf_dhcp.j2
+
+- name: save --> build as handler
+  vyos.vyos.vyos_config:
+    save: True

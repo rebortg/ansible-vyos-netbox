@@ -1,0 +1,23 @@
+{% for interface in interfaces %}
+{% set rowloop = loop %}
+{% for tag in interface['tags'] %}
+{% if 'BGP_DMZ' in tag['name'] %}
+set policy route-map BGP-DMZ rule {{ rowloop.index }} action 'permit'
+set policy route-map BGP-DMZ rule {{ rowloop.index }} match interface {{ interface['name'] }}
+{% endif %}
+{% endfor %}
+{% endfor %}
+set policy route-map BGP-DMZ rule 999 action 'deny'
+set policy route-map BGP-DMZ rule 999 description 'cleanup'
+
+{% for interface in interfaces %}
+{% set rowloop = loop %}
+{% for tag in interface['tags'] %}
+{% if 'OSPF_LHD' in tag['name'] %}
+set policy route-map OSPF-LHD rule {{ rowloop.index }} action 'permit'
+set policy route-map OSPF-LHD rule {{ rowloop.index }} match interface {{ interface['name'] }}
+{% endif %}
+{% endfor %}
+{% endfor %}
+set policy route-map OSPF-LHD rule 999 action 'deny'
+set policy route-map OSPF-LHD rule 999 description 'cleanup'

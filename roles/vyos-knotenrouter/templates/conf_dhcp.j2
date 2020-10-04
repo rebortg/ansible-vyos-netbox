@@ -1,0 +1,8 @@
+{% for interface in interfaces %}
+{% for tag in interface['tags'] %}
+{% if 'DHCP Relay' in tag['name'] %}
+set service dhcp-relay interface {{ interface['name'] }}
+{% endif %}
+{% endfor %}
+{% endfor %}
+set service dhcp-relay server 192.168.116.14

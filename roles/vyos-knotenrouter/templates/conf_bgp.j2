@@ -1,0 +1,7 @@
+{% for ipaddress in central_ipaddresses %}
+{% if ipaddress['value']['assigned_object']['name'] == "wg"+config_context[0]['mgmt_net'].split('/')[0].split('.')[3] %}
+set protocols bgp {{ config_context[0]['asn'] }} address-family ipv4-unicast redistribute connected
+set protocols bgp {{ config_context[0]['asn'] }} neighbor {{ ipaddress['value']['address'].split('/')[0] }} address-family ipv4-unicast route-map export 'BGP-DMZ'
+set protocols bgp {{ config_context[0]['asn'] }} neighbor {{ ipaddress['value']['address'].split('/')[0] }} remote-as '64512'
+{% endif %}
+{% endfor %}
